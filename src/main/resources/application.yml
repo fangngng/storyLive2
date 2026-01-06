@@ -1,0 +1,36 @@
+server:
+  port: 8080
+
+spring:
+  application:
+    name: story-live2
+  datasource:
+    url: jdbc:sqlite:story.db
+    driver-class-name: org.sqlite.JDBC
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: com.aistory.config.SQLiteDialect
+        format_sql: true
+  sql:
+    init:
+      mode: always
+
+logging:
+  level:
+    com.aistory: DEBUG
+    org.springframework: INFO
+
+openai:
+  api:
+    key: ${OPENAI_API_KEY:}  # 从环境变量获取，如果未设置则为空
+
+# 服务器配置
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
