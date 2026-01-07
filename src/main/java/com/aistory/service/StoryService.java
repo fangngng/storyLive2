@@ -55,6 +55,9 @@ public class StoryService {
             // 如果没有默认配置，则创建一个
             aiConfig = new AIConfiguration();
             aiConfig.setModelName("gpt-3.5-turbo");
+            aiConfig.setTemperature(0.7);
+            aiConfig.setMaxTokens(500);
+            aiConfig.setTopP(1.0);
             aiConfig.setIsDefault(true);
             aiConfig = aiConfigurationRepository.save(aiConfig);
         }
@@ -85,7 +88,7 @@ public class StoryService {
                 .orElseThrow(() -> new RuntimeException("会话不存在"));
         
         // 获取当前故事节点以提供上下文
-        List<StoryNode> sessionNodes = storyNodeRepository.findBySessionId(session.getId());
+        List<StoryNode> sessionNodes = storyNodeRepository.findBySessionIdOrderByCreatedAtAsc(session.getId());
         String context = buildContext(sessionNodes);
         
         // 使用AI生成下一个故事节点
@@ -106,10 +109,21 @@ public class StoryService {
     }
     
     public List<StoryNodeResponse> getStoryHistory(UUID sessionId) {
-        List<StoryNode> nodes = storyNodeRepository.findBySessionId(sessionId);
+        List<StoryNode> nodes = storyNodeRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
         return nodes.stream()
                 .map(this::convertToResponse)
                 .collect(Collectors.toList());
+    }
+    
+    public List<StoryNodeResponse> getSessionHistory(UUID sessionId) {
+        List<StoryNode> nodes = storyNodeRepository.findBySessionIdOrderByCreatedAtAsc(sessionId);
+        return nodes.stream()
+                .map(this::convertToResponse)
+                .collect(Collectors.toList());
+    }
+    
+    public List<StorySession> getAllSessions() {
+        return storySessionRepository.findAll();
     }
     
     private String buildContext(List<StoryNode> nodes) {

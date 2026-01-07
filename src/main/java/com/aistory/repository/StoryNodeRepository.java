@@ -10,4 +10,5 @@ import java.util.UUID;
 @Repository
 public interface StoryNodeRepository extends JpaRepository<StoryNode, UUID> {
     List<StoryNode> findBySessionId(UUID sessionId);
+    List<StoryNode> findBySessionIdOrderByCreatedAtAsc(UUID sessionId);
 }

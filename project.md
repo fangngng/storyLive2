@@ -60,8 +60,8 @@ AI 故事生成系统（StoryLive2）
 - **数据访问**: Spring Data JPA
 
 ### 3.4 AI集成
-- **文本生成**: OpenAI GPT 或其他AI语言模型
-- **图片生成**: DALL-E 或其他AI图像生成服务
+- **文本生成**: OpenAI GPT 、阿里百炼大模型api
+- **图片生成**: DALL-E 或其他AI图像生成服务、阿里百炼大模型
 
 ## 4. 数据库设计
 

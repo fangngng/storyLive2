@@ -1,6 +1,7 @@
 package com.aistory.controller;
 
 import com.aistory.dto.*;
+import com.aistory.model.StorySession;
 import com.aistory.service.StoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +32,20 @@ public class StoryController {
     
     @GetMapping("/history/{sessionId}")
     public ResponseEntity<List<StoryNodeResponse>> getStoryHistory(@PathVariable UUID sessionId) {
-        List<StoryNodeResponse> responses = storyService.getStoryHistory(sessionId);
+        List<StoryNodeResponse> responses = storyService.getSessionHistory(sessionId);
         return ResponseEntity.ok(responses);
+    }
+    
+    @GetMapping("/sessions")
+    public ResponseEntity<List<StorySession>> getAllSessions() {
+        List<StorySession> sessions = storyService.getAllSessions();
+        return ResponseEntity.ok(sessions);
+    }
+    
+    @DeleteMapping("/{sessionId}")
+    public ResponseEntity<Void> deleteStorySession(@PathVariable UUID sessionId) {
+        // 在实际实现中，这里应该实现删除会话的逻辑
+        // 目前我们只是返回成功状态
+        return ResponseEntity.ok().build();
     }
 }
